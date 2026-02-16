@@ -20,20 +20,55 @@ float printArray(float arr[], int n)
 
 int main()
 {
-    int n;
-
-    cout << "Enter array size: \n";
-    cin >> n;
-
-    float arr[n];
-
-    cout << "Enter " << n << " element(s): \n";
-
-    for (int i = 0; i < n; i++)
+    int choice;
+    bool arrayDeclared = false;
+    char cont;
+    do
     {
-        cin >> arr[i];
-    }
+        cout << "\n MENU \nChoose an option:\n"
+             << endl;
+        cout << "1. Declare Array Size & Input element(s). \n";
+        cout << "2. Search an Element\n";
+        cout << "3. Delete an Element\n";
+        cout << "4. Insert an Element\n";
+        cout << "5. Sort the Array\n";
+        cout << "0. Exit\n";
+        cout << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
 
-    cout << "Your current array is \n";
-    printArray(arr, n);
+        if (!arrayDeclared && choice != 1 && choice != 0)
+        {
+            cout << "Declare array first!\n";
+            continue;
+        }
+        if (choice == 1)
+        {
+            int n;
+
+            cout << "Enter array size: \n";
+            cin >> n;
+
+            float arr[n];
+
+            cout << "Enter " << n << " element(s): \n";
+
+            for (int i = 0; i < n; i++)
+            {
+                cin >> arr[i];
+            }
+
+            cout << "Your current array is \n";
+            printArray(arr, n);
+        }
+        else if (choice == 2)
+        {
+            /* code */
+        }
+        else
+        {
+            /* code */
+        }
+
+    } while (true);
 }
