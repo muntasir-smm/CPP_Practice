@@ -45,7 +45,7 @@ void printArray(int arr[], int n)
 
 int main()
 {
-    int arr[100];
+    int arr[1000];
     int n, choice;
     bool arrayDeclared = false;
 
