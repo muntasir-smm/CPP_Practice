@@ -143,65 +143,28 @@ int main()
         else if (choice == 3)
         {
             int x;
-            cout << "Enter an element to Delete: \n";
+            cout << "Enter an element to Delete: ";
             cin >> x;
 
-            int pos = -1;
+            int newSize = 0;
 
             for (int i = 0; i < n; i++)
             {
-                if (arr[i] == x)
+                if (arr[i] != x)
                 {
-                    pos = i;
-
-                    /*:::::Section 1:::::*/
-                    /*
-                    To delete all x we need this section.
-                    */
-
-                    for (int i = pos; i < n - 1; i++)
-                    {
-                        arr[i] = arr[i + 1];
-                    }
-                    n--;
-                    /*:::::::::::::::::::*/
-
-                    // break;
-                    
-                    /*
-                    If this is ON. Only first 'x' will delete.
-
-                    If OFF all 'x' will vanish.
-
-                    If this break + Section 1 is OFF but section 2 is ON then the last 'x' will delete.
-                    */
+                    arr[newSize] = arr[i];
+                    newSize++;
                 }
             }
 
-            if (pos == -1)
+            if (newSize == n)
             {
                 cout << x << " is not found!\n";
             }
             else
             {
-                /*:::::Section 2:::::*/
-                /*
-                To delete only one 'x'
-                */
-
-                // for (int i = pos; i < n - 1; i++)
-                // {
-                //     arr[i] = arr[i + 1];
-                // }
-                // n--;
-
-                /*:::::::::::::::::::*/
-                cout << x << " is deleted Successfully! \n";
-
-                /*
-                N.B.:
-                Section 1 and 2 can't run at the same time
-                */
+                n = newSize;
+                cout << x << " is deleted successfully!\n";
                 printArray(arr, n);
             }
         }
