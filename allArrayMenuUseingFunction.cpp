@@ -15,27 +15,26 @@ void clearInput()
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 
-/*:::::Array exist:::::*/
-int arrayExist()
+// ---------- Check if array exists ----------
+bool arrayExist()
 {
     if (!created)
     {
         cout << "Array not created yet.\n";
-        return 0;
+        return false;
     }
 
     if (n == 0)
     {
         cout << "Array is empty.\n";
-        return 0;
+        return false;
     }
-    return 1;
+    return true;
 }
 
 // ---------- Create / Re-create ----------
 void createArray()
 {
-
     while (true)
     {
         cout << "Enter array size (1-" << MAX << "): ";
@@ -44,29 +43,31 @@ void createArray()
         if (cin.fail() || n < 1 || n > MAX)
         {
             clearInput();
-            cout << "Invalid size!\n";
+            cout << "Invalid size! Try again.\n";
             continue;
         }
         break;
     }
 
-    // arr[n];
-
     cout << "Enter " << n << " number(s):\n";
 
     for (int i = 0; i < n; i++)
     {
-        cin >> arr[i];
-        if (cin.fail())
+        while (true)
         {
-            clearInput();
-            cout << "Invalid element!\n";
-            i--;
+            cin >> arr[i];
+            if (cin.fail())
+            {
+                clearInput();
+                cout << "Invalid element! Try again: ";
+                continue;
+            }
+            break;
         }
     }
 
-    clearInput();
     created = true;
+    cout << "Array created successfully.\n";
 }
 
 // ---------- Display ----------
@@ -75,16 +76,12 @@ void displayArray()
     if (arrayExist())
     {
         cout << "Array: ";
-
         for (int i = 0; i < n; i++)
         {
             cout << arr[i];
             if (i < n - 1)
-            {
                 cout << ", ";
-            }
         }
-
         cout << endl;
     }
 }
@@ -95,12 +92,14 @@ void searchElement()
     if (arrayExist())
     {
         int x;
-        cout << "Enter an element to search: \n";
+        cout << "Enter element to search: ";
         cin >> x;
+
         if (cin.fail())
         {
             clearInput();
-            cout << "Invalid element!\n";
+            cout << "Invalid input!\n";
+            return;
         }
 
         bool found = false;
@@ -109,15 +108,13 @@ void searchElement()
         {
             if (arr[i] == x)
             {
-                cout << x << " Found at position " << i + 1 << endl;
+                cout << x << " found at position " << i + 1 << endl;
                 found = true;
             }
         }
 
         if (!found)
-        {
             cout << x << " is not found!\n";
-        }
     }
 }
 
@@ -162,6 +159,8 @@ void insertElement()
         return;
     }
 
+    pos--; // Convert to 0-based index
+
     for (int i = n; i > pos; i--)
         arr[i] = arr[i - 1];
 
@@ -169,6 +168,7 @@ void insertElement()
     n++;
 
     cout << "Inserted successfully.\n";
+    displayArray();
 }
 
 // ---------- Delete First ----------
@@ -180,7 +180,6 @@ bool deleteFirst(int x)
         {
             for (int j = i; j < n - 1; j++)
                 arr[j] = arr[j + 1];
-
             n--;
             return true;
         }
@@ -192,7 +191,6 @@ bool deleteFirst(int x)
 bool deleteLast(int x)
 {
     int pos = -1;
-
     for (int i = 0; i < n; i++)
         if (arr[i] == x)
             pos = i;
@@ -242,9 +240,21 @@ void deleteMenu()
     cout << "3. Delete All\n";
     cout << "Enter choice: ";
     cin >> choice;
+    if (cin.fail())
+    {
+        clearInput();
+        cout << "Invalid choice.\n";
+        return;
+    }
 
     cout << "Enter element: ";
     cin >> x;
+    if (cin.fail())
+    {
+        clearInput();
+        cout << "Invalid element.\n";
+        return;
+    }
 
     bool result = false;
 
@@ -265,7 +275,10 @@ void deleteMenu()
     }
 
     if (result)
+    {
         cout << "Deleted successfully.\n";
+        displayArray();
+    }
     else
         cout << "Element not found.\n";
 }
@@ -298,22 +311,29 @@ void sortMenu()
     }
 
     int choice;
-
     cout << "\nSort Menu\n";
     cout << "1. Ascending\n";
     cout << "2. Descending\n";
     cout << "Enter choice: ";
     cin >> choice;
+    if (cin.fail())
+    {
+        clearInput();
+        cout << "Invalid choice.\n";
+        return;
+    }
 
     if (choice == 1)
     {
         sortAscending();
         cout << "Sorted Ascending.\n";
+        displayArray();
     }
     else if (choice == 2)
     {
         sortDescending();
         cout << "Sorted Descending.\n";
+        displayArray();
     }
     else
         cout << "Invalid choice.\n";
@@ -328,9 +348,7 @@ void reverseArray()
         return;
     }
 
-    int start = 0;
-    int end = n - 1;
-
+    int start = 0, end = n - 1;
     while (start < end)
     {
         swap(arr[start], arr[end]);
@@ -339,32 +357,25 @@ void reverseArray()
     }
 
     cout << "Array reversed successfully.\n";
+    displayArray();
 }
 
-/* :::::::Continue Program::::::: */
+// ---------- Continue Program ----------
 bool continueProgram()
 {
     char yesNo;
-
     while (true)
     {
         cout << "\nDo you want to continue? (y/n): ";
         cin >> yesNo;
-
         clearInput();
 
         if (yesNo == 'y' || yesNo == 'Y')
-        {
             return true;
-        }
         else if (yesNo == 'n' || yesNo == 'N')
-        {
             return false;
-        }
         else
-        {
             cout << "Invalid input. Try again.\n";
-        }
     }
 }
 
@@ -372,7 +383,6 @@ bool continueProgram()
 int main()
 {
     int choice;
-
     do
     {
         cout << "\n::::: MAIN MENU :::::\n";
@@ -383,14 +393,11 @@ int main()
         cout << "5. Delete\n";
         cout << "6. Sort\n";
         cout << "7. Reverse\n";
-        cout << "8. Re-create Array\n";
         cout << "0. Exit\n";
-        cout << "\n:::::::::::::::::::::\n";
+        cout << ":::::::::::::::::::::\n";
 
-        cout << endl
-             << "Enter choice: ";
+        cout << "Enter choice: ";
         cin >> choice;
-
         if (cin.fail())
         {
             clearInput();
@@ -401,44 +408,55 @@ int main()
         switch (choice)
         {
         case 1:
-        case 8:
+        {
             createArray();
-            break;
-
-        case 2:
             displayArray();
             break;
-
+        }
+        case 2:
+        {
+            displayArray();
+            break;
+        }
         case 3:
+        {
             searchElement();
             break;
-
+        }
         case 4:
+        {
             insertElement();
             break;
-
+        }
         case 5:
+        {
             deleteMenu();
             break;
-
+        }
         case 6:
+        {
             sortMenu();
             break;
-
+        }
         case 7:
+        {
             reverseArray();
             break;
-
+        }
         case 0:
+        {
             cout << "Program exited.\n";
             return 0;
-
-        default:
-            cout << "Invalid choice.\n";
         }
+        default:
+        {
+            cout << "Invalid choice.\n";
+            break;
+        }
+        }
+
     } while (continueProgram());
 
     cout << "\nProgram ended.\n";
-
     return 0;
 }
