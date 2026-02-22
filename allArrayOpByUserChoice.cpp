@@ -145,7 +145,14 @@ int main()
             int x;
             cout << "Enter an element to Delete: ";
             cin >> x;
+            if (cin.fail())
+            {
+                clearInput();
+                cout << "Invalid element!\n";
+                return;
+            }
 
+            // All x will delete
             int newSize = 0;
 
             for (int i = 0; i < n; i++)
