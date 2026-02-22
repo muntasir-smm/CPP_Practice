@@ -140,11 +140,28 @@ int main()
             int pos = -1;
 
             for (int i = 0; i < n; i++)
+            {
                 if (arr[i] == x)
                 {
                     pos = i;
-                    break;
+                    // break; // This break is for section 1 and 2
+
+                    /*:::::Section 1:::::*/
+                    /*
+                    To delete all x we need this section.
+
+                    Above break; must OFF.
+                    */
+
+                    for (int i = pos; i < n - 1; i++)
+                    {
+                        arr[i] = arr[i + 1];
+                    }
+                    n--;
+
+                    /*:::::::::::::::::::*/
                 }
+            }
 
             if (pos == -1)
             {
@@ -152,10 +169,27 @@ int main()
             }
             else
             {
-                for (int i = pos; i < n - 1; i++)
-                    arr[i] = arr[i + 1];
+                /*:::::Section 2:::::*/
+                /*
+                When "break; is ON"
+                This section will delete the first 'x' from the array.
 
+                When "break; is OFF"
+                This section will delete the last 'x' from the array.
+                */
+
+                for (int i = pos; i < n - 1; i++)
+                {
+                    arr[i] = arr[i + 1];
+                }
                 n--;
+
+                /*:::::::::::::::::::*/
+
+                /*
+                N.B.:
+                Section 1 and 2 can't run at the same time
+                */
                 printArray(arr, n);
             }
         }
