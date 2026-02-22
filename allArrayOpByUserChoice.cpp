@@ -37,10 +37,19 @@ bool continueProgram()
 
 void printArray(int arr[], int n)
 {
-    cout << "Your current Array: \n";
-    for (int i = 0; i < n; i++)
-        cout << arr[i] << " ";
-    cout << endl;
+    if (n <= 0)
+    {
+        cout << "There is no element in the array.";
+    }
+    else
+    {
+        cout << "Your current Array: \n";
+        for (int i = 0; i < n; i++)
+        {
+            cout << arr[i] << " ";
+        }
+        cout << endl;
+    }
 }
 
 int main()
@@ -144,13 +153,10 @@ int main()
                 if (arr[i] == x)
                 {
                     pos = i;
-                    // break; // This break is for section 1 and 2
 
                     /*:::::Section 1:::::*/
                     /*
                     To delete all x we need this section.
-
-                    Above break; must OFF.
                     */
 
                     for (int i = pos; i < n - 1; i++)
@@ -158,8 +164,17 @@ int main()
                         arr[i] = arr[i + 1];
                     }
                     n--;
-
                     /*:::::::::::::::::::*/
+
+                    // break;
+                    
+                    /*
+                    If this is ON. Only first 'x' will delete.
+
+                    If OFF all 'x' will vanish.
+
+                    If this break + Section 1 is OFF but section 2 is ON then the last 'x' will delete.
+                    */
                 }
             }
 
@@ -171,20 +186,17 @@ int main()
             {
                 /*:::::Section 2:::::*/
                 /*
-                When "break; is ON"
-                This section will delete the first 'x' from the array.
-
-                When "break; is OFF"
-                This section will delete the last 'x' from the array.
+                To delete only one 'x'
                 */
 
-                for (int i = pos; i < n - 1; i++)
-                {
-                    arr[i] = arr[i + 1];
-                }
-                n--;
+                // for (int i = pos; i < n - 1; i++)
+                // {
+                //     arr[i] = arr[i + 1];
+                // }
+                // n--;
 
                 /*:::::::::::::::::::*/
+                cout << x << " is deleted Successfully! \n";
 
                 /*
                 N.B.:
