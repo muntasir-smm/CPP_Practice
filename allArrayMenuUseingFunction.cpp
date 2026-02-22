@@ -313,14 +313,41 @@ void reverseArray()
     cout << "Array reversed successfully.\n";
 }
 
+/* :::::::Continue Program::::::: */
+bool continueProgram()
+{
+    char yesNo;
+
+    while (true)
+    {
+        cout << "\nDo you want to continue? (y/n): ";
+        cin >> yesNo;
+
+        clearInput();
+
+        if (yesNo == 'y' || yesNo == 'Y')
+        {
+            return true;
+        }
+        else if (yesNo == 'n' || yesNo == 'N')
+        {
+            return false;
+        }
+        else
+        {
+            cout << "Invalid input. Try again.\n";
+        }
+    }
+}
+
 // ---------- Main ----------
 int main()
 {
     int choice;
 
-    while (true)
+    do
     {
-        cout << "\n===== MAIN MENU =====\n";
+        cout << "\n::::: MAIN MENU :::::\n";
         cout << "1. Create Array\n";
         cout << "2. Display\n";
         cout << "3. Search\n";
@@ -330,8 +357,10 @@ int main()
         cout << "7. Reverse\n";
         cout << "8. Re-create Array\n";
         cout << "0. Exit\n";
+        cout << "\n:::::::::::::::::::::\n";
 
-        cout << "Enter choice: ";
+        cout << endl
+             << "Enter choice: ";
         cin >> choice;
 
         if (cin.fail())
@@ -379,5 +408,9 @@ int main()
         default:
             cout << "Invalid choice.\n";
         }
-    }
+    } while (continueProgram());
+
+    cout << "\nProgram ended.\n";
+
+    return 0;
 }
