@@ -97,15 +97,22 @@ void searchElement()
         int x;
         cout << "Enter an element to search: \n";
         cin >> x;
+        if (cin.fail())
+        {
+            clearInput();
+            cout << "Invalid element!\n";
+        }
 
         bool found = false;
 
         for (int i = 0; i < n; i++)
+        {
             if (arr[i] == x)
             {
                 cout << x << " Found at position " << i + 1 << endl;
                 found = true;
             }
+        }
 
         if (!found)
         {
@@ -140,7 +147,7 @@ void insertElement()
         return;
     }
 
-    cout << "Enter position (0 to " << n << "): ";
+    cout << "Enter position (1 to " << n + 1 << "): ";
     cin >> pos;
     if (cin.fail())
     {
@@ -149,7 +156,7 @@ void insertElement()
         return;
     }
 
-    if (pos < 0 || pos > n)
+    if (pos < 1 || pos > n + 1)
     {
         cout << "Invalid position.\n";
         return;
