@@ -15,94 +15,103 @@ void clearInput()
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 
-// ---------- Create / Re-create ----------
-void createArray()
-{
-    while (true)
-    {
-        cout << "Enter number of elements (0 - " << MAX << "): ";
-        cin >> n;
-
-        if (cin.fail() || n < 0 || n > MAX)
-        {
-            cout << "Invalid size. Try again.\n";
-            clearInput();
-            continue;
-        }
-        break;
-    }
-
-    for (int i = 0; i < n; i++)
-    {
-        while (true)
-        {
-            cout << "Enter element " << i << ": ";
-            cin >> arr[i];
-
-            if (cin.fail())
-            {
-                cout << "Invalid input.\n";
-                clearInput();
-                continue;
-            }
-            break;
-        }
-    }
-
-    created = true;
-    cout << "Array created successfully.\n";
-}
-
-// ---------- Display ----------
-void displayArray()
+/*:::::Array exist:::::*/
+int arrayExist()
 {
     if (!created)
     {
         cout << "Array not created yet.\n";
-        return;
+        return 0;
     }
 
     if (n == 0)
     {
         cout << "Array is empty.\n";
-        return;
+        return 0;
+    }
+    return 1;
+}
+
+// ---------- Create / Re-create ----------
+void createArray()
+{
+
+    while (true)
+    {
+        cout << "Enter array size (1-" << MAX << "): ";
+        cin >> n;
+
+        if (cin.fail() || n < 1 || n > MAX)
+        {
+            clearInput();
+            cout << "Invalid size!\n";
+            continue;
+        }
+        break;
     }
 
-    cout << "Array: ";
+    // arr[n];
+
+    cout << "Enter " << n << " number(s):\n";
 
     for (int i = 0; i < n; i++)
     {
-        cout << arr[i];
-        if (i < n - 1)
-            cout << ", ";
+        cin >> arr[i];
+        if (cin.fail())
+        {
+            clearInput();
+            cout << "Invalid element!\n";
+            i--;
+        }
     }
 
-    cout << endl;
+    clearInput();
+    created = true;
+}
+
+// ---------- Display ----------
+void displayArray()
+{
+    if (arrayExist())
+    {
+        cout << "Array: ";
+
+        for (int i = 0; i < n; i++)
+        {
+            cout << arr[i];
+            if (i < n - 1)
+            {
+                cout << ", ";
+            }
+        }
+
+        cout << endl;
+    }
 }
 
 // ---------- Search ----------
 void searchElement()
 {
-    if (!created)
+    if (arrayExist())
     {
-        cout << "Create array first.\n";
-        return;
-    }
+        int x;
+        cout << "Enter an element to search: \n";
+        cin >> x;
 
-    int x;
-    cout << "Enter element to search: ";
-    cin >> x;
+        bool found = false;
 
-    for (int i = 0; i < n; i++)
-    {
-        if (arr[i] == x)
+        for (int i = 0; i < n; i++)
+            if (arr[i] == x)
+            {
+                cout << x << " Found at position " << i + 1 << endl;
+                found = true;
+            }
+
+        if (!found)
         {
-            cout << "Element found at index " << i << endl;
-            return;
+            cout << x << " is not found!\n";
         }
     }
-
-    cout << "Element not found.\n";
 }
 
 // ---------- Insert ----------
@@ -124,9 +133,21 @@ void insertElement()
 
     cout << "Enter element to insert: ";
     cin >> x;
+    if (cin.fail())
+    {
+        clearInput();
+        cout << "Invalid input.\n";
+        return;
+    }
 
     cout << "Enter position (0 to " << n << "): ";
     cin >> pos;
+    if (cin.fail())
+    {
+        clearInput();
+        cout << "Invalid input.\n";
+        return;
+    }
 
     if (pos < 0 || pos > n)
     {
@@ -200,9 +221,9 @@ bool deleteAll(int x)
 // ---------- Delete Menu ----------
 void deleteMenu()
 {
-    if (!created)
+    if (!created || n == 0)
     {
-        cout << "Create array first.\n";
+        cout << "Array is empty. Create array first.\n";
         return;
     }
 
@@ -263,9 +284,9 @@ void sortDescending()
 // ---------- Sort Menu ----------
 void sortMenu()
 {
-    if (!created)
+    if (!created || n == 0)
     {
-        cout << "Create array first.\n";
+        cout << "Array is empty. Create array first.\n";
         return;
     }
 
@@ -294,9 +315,9 @@ void sortMenu()
 // ---------- Reverse ----------
 void reverseArray()
 {
-    if (!created)
+    if (!created || n == 0)
     {
-        cout << "Create array first.\n";
+        cout << "Array is empty. Create array first.\n";
         return;
     }
 
